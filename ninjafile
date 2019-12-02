@@ -1,0 +1,13 @@
+cflags = $cflags_dbg
+build 01/first.o: cc 01/first.c
+build 01/second.o: cc 01/second.c
+build 02/first.o: cc 02/first.c
+build 02/second.o: cc 02/second.c
+build 01/first: link 01/first.o
+build 01/second: link 01/second.o
+default 01/first
+default 01/second
+build 02/second: link 02/second.o
+build 02/first: link 02/first.o
+default 02/second
+default 02/first

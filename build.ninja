@@ -1,0 +1,55 @@
+cc = gcc
+cflags_dbg = -std=c99 -g3 -O2 -Wall -Wextra -Wpedantic $
+	-fdiagnostics-color=always $
+ 	-fstack-clash-protection $
+ 	-fsanitize=undefined,address,pointer-compare,pointer-subtract $
+ 	-fstack-protector-all $
+ 	-fno-omit-frame-pointer $
+ 	-fno-common $
+ 	-Wconversion $
+ 	-Wfloat-equal $
+ 	-Wformat=2 $
+ 	-Wformat-truncation=2 $
+ 	-Wformat-overflow $
+ 	-Wstrict-aliasing=2 $
+ 	-Wunused-parameter $
+ 	-Wundef $
+ 	-Wredundant-decls $
+ 	-Wmissing-include-dirs $
+ 	-Wshadow $
+ 	-Wdouble-promotion $
+ 	-Wlogical-op $
+ 	-Wduplicated-branches $
+ 	-Wduplicated-cond $
+ 	-Walloc-zero $
+ 	-Wnull-dereference $
+ 	-Wcast-qual $
+ 	-Wcast-align $
+ 	-Wdate-time $
+ 	-Wimplicit-fallthrough=2 $
+ 	-Wjump-misses-init $
+ 	-Wpacked $
+ 	-Wnested-externs $
+ 	-Wvla $
+ 	-Wstack-protector $
+ 	-Wold-style-definition $
+ 	-Winit-self $
+ 	-Wstrict-prototypes $
+ 	-Wstringop-overflow=2
+cflags_rel = -std=c99 -O3
+cppflags = -D_POSIX_C_SOURCE=200809L
+ldflags = -fuse-ld=gold $
+ 	-fsanitize=undefined,address,pointer-compare,pointer-subtract	
+
+builddir = build
+
+rule cc
+    command = $cc $cppflags -MD -MF ${out}.d $cflags -c $in -o $out
+    depfile = ${out}.d
+    deps = gcc
+    description = compiling $in
+rule link
+    command = $cc $ldflags $in -o $out && { rg -q $out .gitignore || echo $out >> .gitignore; }
+    description = linking $in
+
+include ninjafile
