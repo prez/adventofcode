@@ -1,23 +1,30 @@
-#include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+#include <stdint.h>
 
-#define BUFLEN 10000
-#define VALUE 19690720
+#define BUFLEN 200
+#define VALUE  19690720
 
-int
-simulate(int in1, int in2, int *nums, int len)
+/* int __attribute__ ((pure)) */
+uint_fast32_t
+simulate(uint_fast8_t noun, uint_fast8_t verb, uint_fast32_t *arr, size_t len)
 {
-	int arr[BUFLEN];
-	memcpy(arr, nums, BUFLEN);
+	arr[1] = noun;
+	arr[2] = verb;
 
-	arr[1] = in1;
-	arr[2] = in2;
-	
-	for (int i = 0; i < len; i+=4) {
-		switch (arr[i]) {
-		case 99:
+	for (size_t i = 0; i < len; i += 4) {
+		if (99 == arr[i]) {
 			goto end;
+		}
+		if (arr[i+3] >= len) {
+			uint_fast32_t *arr_new = realloc(arr, arr[i+3] * sizeof(uint_fast32_t));
+			if (NULL == arr_new) {
+				exit(1);
+			}
+			arr = arr_new;
+		}
+		switch (arr[i]) {
 		case 1:
 			arr[arr[i+3]] = arr[arr[i+1]] + arr[arr[i+2]];
 			break;
@@ -34,22 +41,32 @@ end:
 int
 main(void)
 {
-	char line[BUFLEN+1];
-	FILE *fd = fopen("input", "r");
-	if (NULL == fgets(line, BUFLEN, fd)) {
+	FILE *f = fopen("bigboy", "r");
+	uint_fast32_t *nums = malloc(BUFLEN * sizeof(uint_fast32_t));
+	if (NULL == nums) {
 		return 1;
 	}
-
-	int nums[BUFLEN];
-	int len = 0;
-	for (char *s = strtok(line, ",\n"); NULL != s; s = strtok(NULL, ",\n"), len++) {
-		nums[len] = atoi(s);
+	size_t len = 0; 
+	for (size_t bufsize = BUFLEN; EOF != fscanf(f, "%lu,", nums + len); len++) {
+		if (bufsize == len+1) {
+			bufsize *= 50;
+			uint_fast32_t *nums_new = realloc(nums, bufsize * sizeof(uint_fast32_t));
+			if (NULL == nums_new) {
+				return 1;
+			}
+			nums = nums_new;
+		}
+	
 	}
+	fclose(f);
 
-	for (int i = 0; i <= 99; i++) {
-		for (int j = 0; j <= 99; j++) {
-			if (VALUE == simulate(i, j, nums, len)) {
-				printf("%d\n", 100*i + j);
+	uint_fast32_t *code = malloc(len * sizeof(uint_fast32_t));
+	for (uint_fast8_t i = 0; i <= 99; i++) {
+		for (uint_fast8_t j = 0; j <= 99; j++) {
+			memcpy(code, nums, len * sizeof(uint_fast32_t));
+			if (VALUE == simulate(i, j, code, len)) {
+				printf("%u\n", 100 * i + j);
+				return 0;
 			}
 		}
 	}

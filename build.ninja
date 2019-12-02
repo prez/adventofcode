@@ -36,10 +36,19 @@ cflags_dbg = -std=c99 -g3 -O2 -Wall -Wextra -Wpedantic $
  	-Winit-self $
  	-Wstrict-prototypes $
  	-Wstringop-overflow=2
-cflags_rel = -std=c99 -O3
+cflags_rel = -std=c99 -O3 $
+	-floop-nest-optimize $
+	-fgraphite-identity $
+	-fdevirtualize-at-ltrans $
+	-fipa-pta $
+	-fno-semantic-interposition $
+	-flto $
+	-fuse-linker-plugin
 cppflags = -D_POSIX_C_SOURCE=200809L
-ldflags = -fuse-ld=gold $
- 	-fsanitize=undefined,address,pointer-compare,pointer-subtract	
+ldflags_dbg = -fuse-ld=gold $
+ 	-fsanitize=undefined,address,pointer-compare,pointer-subtract $
+ 	-Wl,-z,defs
+ldflags_rel = -s
 
 builddir = build
 

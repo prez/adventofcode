@@ -1,4 +1,5 @@
-cflags = $cflags_dbg
+cflags = $cflags_rel
+ldflags = $ldflags_rel
 build 01/first.o: cc 01/first.c
 build 01/second.o: cc 01/second.c
 build 02/first.o: cc 02/first.c
@@ -7,7 +8,7 @@ build 01/first: link 01/first.o
 build 01/second: link 01/second.o
 default 01/first
 default 01/second
-build 02/second: link 02/second.o
 build 02/first: link 02/first.o
-default 02/second
+build 02/second: link 02/second.o
 default 02/first
+default 02/second

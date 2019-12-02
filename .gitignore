@@ -1,0 +1,7 @@
+build/
+.clang-format
+*.o
+01/second
+01/first
+02/first
+02/second
