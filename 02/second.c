@@ -41,7 +41,7 @@ end:
 int
 main(void)
 {
-	FILE *f = fopen("bigboy", "r");
+	FILE *f = fopen("input", "r");
 	uint_fast32_t *nums = malloc(BUFLEN * sizeof(uint_fast32_t));
 	if (NULL == nums) {
 		return 1;
