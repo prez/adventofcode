@@ -22,14 +22,6 @@ dubs(void (*f)(uint_fast8_t *), uint_fast64_t n)
 	return ret;
 }
 
-uint_fast64_t __attribute_pure__
-lt_ten_p_digits(uint_fast64_t n)
-{
-	uint_fast64_t ret;
-	for (ret = 1; 0 != n; n /= 10, ret *= 10) {}
-	return ret/10;
-}
-
 void
 adjust(uint_fast64_t *n)
 {
