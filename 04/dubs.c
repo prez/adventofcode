@@ -2,10 +2,8 @@
 #include <stdint.h>
 #include <sys/cdefs.h>
 
-void
-eq2s(uint_fast8_t *x) { *x = (*x== 2); }
-void
-ge2s(uint_fast8_t *x) { *x = (*x>= 2); }
+void eq2s(uint_fast8_t *x) { *x = (*x== 2); }
+void ge2s(uint_fast8_t *x) { *x = (*x>= 2); }
 
 uint_fast8_t __attribute_pure__
 dubs(void (*f)(uint_fast8_t *), uint_fast64_t n)
@@ -43,26 +41,6 @@ adjust(uint_fast64_t *n)
 	}
 }
 
-void
-adjust_init(uint_fast64_t *n)
-{
-	uint_fast64_t div, sum = 0;
-	uint_fast8_t d, l_d = 0, found = 0;
-	
-	for (div = lt_ten_p_digits(*n); div; div /= 10) {
-		if (!found) {
-			d = (*n / div) % 10;
-		}
-		if (d < l_d) {
-			d = l_d;
-			found = 1;
-		}
-		sum += d * div;
-		l_d = d;
-	}
-	*n = sum;
-}
-
 int
 main(void)
 {
@@ -71,7 +49,7 @@ main(void)
 	fscanf(fp, "%llu-%llu\n", &a, &b);
 	fclose(fp);
 	
-	for (adjust_init(&a); a <= b; a++) {
+	for (adjust(&a); a <= b; a++) {
 		if (!(a % 10)) {
 			adjust(&a);
 		}
