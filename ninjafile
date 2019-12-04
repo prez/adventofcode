@@ -6,6 +6,7 @@ build 02/first.o: cc 02/first.c
 build 02/second.o: cc 02/second.c
 build 03/combined.o: cc 03/combined.c
 build 03/hash_table.o: cc 03/hash_table.c
+build 04/dubs.o: cc 04/dubs.c
 build 01/first: link 01/first.o
 build 01/second: link 01/second.o
 default 01/first
@@ -16,3 +17,5 @@ default 02/first
 default 02/second
 build 03/combined: link 03/combined.o 03/hash_table.o
 default 03/combined
+build 04/dubs: link 04/dubs.o
+default 04/dubs

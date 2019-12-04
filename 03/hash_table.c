@@ -1,16 +1,28 @@
-#include <stdlib.h>
-#include <stdio.h>
-#include <err.h>
-#include <sys/cdefs.h>
 #include "hash_table.h"
 
-uint_fast32_t primes[16] = { 97, 2143, 12781, 73043, 153191, 270961, 350699, 397027, 440683, 506101, 665617, 855311, 1250437, 1576177, 1921133, 399999949 };
+#include <sys/cdefs.h>
 
-static struct ht_entry *ht_new_entry(uint_fast32_t key1, uint_fast32_t key2, uint_fast32_t val);
-static void ht_del_entry(struct ht_entry *e);
-static inline uint_fast32_t ht_hash(uint_fast32_t key1, uint_fast32_t key2, uint_fast32_t bucket_size, uint_fast32_t p);
-static uint_fast32_t ht_calc_hash(uint_fast32_t key1, uint_fast32_t key2, uint_fast32_t bucket_size, uint_fast32_t attempt);
-static void ht_resize(struct ht_instance *ht);
+#include <err.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+uint_fast32_t primes[16] = { 97,      2143,    12781,   73043,
+	                         153191,  270961,  350699,  397027,
+	                         440683,  506101,  665617,  855311,
+	                         1250437, 1576177, 1921133, 399999949 };
+
+static struct ht_entry *
+ht_new_entry(uint_fast32_t key1, uint_fast32_t key2, uint_fast32_t val);
+static void
+ht_del_entry(struct ht_entry *e);
+static inline uint_fast32_t
+ht_hash(uint_fast32_t key1, uint_fast32_t key2, uint_fast32_t bucket_size,
+        uint_fast32_t p);
+static uint_fast32_t
+ht_calc_hash(uint_fast32_t key1, uint_fast32_t key2, uint_fast32_t bucket_size,
+             uint_fast32_t attempt);
+static void
+ht_resize(struct ht_instance *ht);
 
 static struct ht_entry *
 ht_new_entry(uint_fast32_t key1, uint_fast32_t key2, uint_fast32_t val)
@@ -32,15 +44,17 @@ ht_del_entry(struct ht_entry *e)
 }
 
 static inline uint_fast32_t __attribute_pure__
-ht_hash(uint_fast32_t key1, uint_fast32_t key2, uint_fast32_t bucket_size, uint_fast32_t p)
+ht_hash(uint_fast32_t key1, uint_fast32_t key2, uint_fast32_t bucket_size,
+        uint_fast32_t p)
 {
-	uint_fast32_t h = key1*p + key2;
+	uint_fast32_t h = key1 * p + key2;
 	h %= bucket_size;
 	return (uint_fast32_t)h;
 }
 
 static uint_fast32_t __attribute_pure__
-ht_calc_hash(uint_fast32_t key1, uint_fast32_t key2, uint_fast32_t bucket_size, uint_fast32_t attempt)
+ht_calc_hash(uint_fast32_t key1, uint_fast32_t key2, uint_fast32_t bucket_size,
+             uint_fast32_t attempt)
 {
 	uint_fast32_t hash_1 = ht_hash(key1, key2, bucket_size, HT_OFFS_1);
 	uint_fast32_t hash_2 = ht_hash(key1, key2, bucket_size, HT_OFFS_2);
@@ -60,7 +74,7 @@ ht_new(void)
 	}
 	ht->size = primes[sz++];
 	ht->count = 0;
-	ht->items = calloc(ht->size, sizeof(struct ht_entry*));
+	ht->items = calloc(ht->size, sizeof(struct ht_entry *));
 	if (NULL == ht->items) {
 		err(1, NULL);
 	}
@@ -102,16 +116,16 @@ ht_del_instance(struct ht_instance *ht)
 }
 
 void
-ht_insert(struct ht_instance *ht, uint_fast32_t key1, uint_fast32_t key2, uint_fast32_t val)
+ht_insert(struct ht_instance *ht, uint_fast32_t key1, uint_fast32_t key2,
+          uint_fast32_t val)
 {
 	if ((ht->count * 100 / ht->size) > 70) {
 		ht_resize(ht);
 	}
-	
+
 	struct ht_entry *new = ht_new_entry(key1, key2, val);
-	
-	uint_fast32_t ind;
-	uint_fast32_t atmpt = 0;	
+
+	uint_fast32_t ind, atmpt = 0;
 	for (struct ht_entry *taken; !atmpt || (NULL != taken); atmpt++) {
 		if (atmpt && (key1 == taken->x) && (key2 == taken->y)) {
 			ht_del_entry(taken);
@@ -121,7 +135,7 @@ ht_insert(struct ht_instance *ht, uint_fast32_t key1, uint_fast32_t key2, uint_f
 		ind = ht_calc_hash(key1, key2, ht->size, atmpt);
 		taken = ht->items[ind];
 	}
-	
+
 	ht->items[ind] = new;
 	ht->count++;
 }
@@ -130,8 +144,7 @@ ht_insert(struct ht_instance *ht, uint_fast32_t key1, uint_fast32_t key2, uint_f
 uint_fast32_t
 ht_query(struct ht_instance *ht, uint_fast32_t key1, uint_fast32_t key2)
 {
-	uint_fast32_t ind;
-	uint_fast32_t atmpt = 0;	
+	uint_fast32_t ind, atmpt = 0;
 	for (struct ht_entry *taken; !atmpt || (NULL != taken); atmpt++) {
 		if (atmpt && (key1 == taken->x) && (key2 == taken->y)) {
 			return taken->cnt;
