@@ -66,7 +66,7 @@ adjust_init(uint_fast64_t *n)
 int
 main(void)
 {
-	FILE *fp = fopen("bigboy", "r");
+	FILE *fp = fopen("evenbiggerboy", "r");
 	uint_fast64_t a, b, cnt1 = 0, cnt2 = 0;
 	fscanf(fp, "%llu-%llu\n", &a, &b);
 	fclose(fp);
