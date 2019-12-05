@@ -95,6 +95,6 @@ main(void)
 	}
 	fclose(f);
 
-	printf("first: %lu\n", update_min(0, 0));
-	printf("second: %lu\n", update_min(0, 1));
+	printf("first:\t%lu\n", update_min(0, 0));
+	printf("second:\t%lu\n", update_min(0, 1));
 }
