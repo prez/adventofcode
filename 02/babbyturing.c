@@ -56,18 +56,21 @@ main(void)
 			}
 			nums = nums_new;
 		}
-	
 	}
 	fclose(f);
 
 	uint_fast32_t *code = malloc(len * sizeof(uint_fast32_t));
-	for (uint_fast8_t i = 0; i <= 99; i++) {
-		for (uint_fast8_t j = 0; j <= 99; j++) {
+	uint_fast8_t i, j;
+	for (i = 0; i <= 99; i++) {
+		for (j = 0; j <= 99; j++) {
 			memcpy(code, nums, len * sizeof(uint_fast32_t));
 			if (VALUE == simulate(i, j, code, len)) {
-				printf("%u\n", 100 * i + j);
-				return 0;
+				goto end;
 			}
 		}
 	}
+
+end:
+	printf("first:\t%lu\n", simulate(12, 2, nums, len));
+	printf("second:\t%u\n", 100 * i + j);
 }

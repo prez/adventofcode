@@ -1,13 +1,10 @@
-#include "combined.h"
-
 #include <sys/cdefs.h>
-
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
 #include "hash_table.h"
+#include "wires.h"
 
 uint_fast32_t
 update_min(uint_fast32_t current, uint_fast8_t ind)
@@ -35,13 +32,11 @@ main(void)
 	FILE *f = fopen("input", "r");
 
 	struct ht_instance *hm = ht_new();
-	for (uint_fast32_t x, y, second_run = 0; fgets(wrk, BUFSIZE, f);
-	     second_run++) {
+	for (uint_fast32_t x, y, second_run = 0; fgets(wrk, BUFSIZE, f); second_run++) {
 		uint_fast32_t res, steps_taken = 0;
 		x = X_ORIGIN;
 		y = Y_ORIGIN;
-		for (char *ch = strtok(wrk, ",\n"); NULL != ch;
-		     ch = strtok(NULL, ",\n")) {
+		for (char *ch = strtok(wrk, ",\n"); NULL != ch; ch = strtok(NULL, ",\n")) {
 			char dir = ch[0];
 			uint_fast32_t mov = (uint_fast32_t)strtoul(ch + 1, NULL, 10);
 
@@ -52,8 +47,7 @@ main(void)
 						ht_insert(hm, x + i, y, steps_taken + i);
 					}
 					else if ((res = ht_query(hm, x + i, y))) {
-						update_min(manhattan_dist(x + i, y, X_ORIGIN, Y_ORIGIN),
-						           0);
+						update_min(manhattan_dist(x + i, y, X_ORIGIN, Y_ORIGIN), 0);
 						update_min(steps_taken + i + res, 1);
 					}
 				}
@@ -65,8 +59,7 @@ main(void)
 						ht_insert(hm, x - i, y, steps_taken + i);
 					}
 					else if ((res = ht_query(hm, x - i, y))) {
-						update_min(manhattan_dist(x - i, y, X_ORIGIN, Y_ORIGIN),
-						           0);
+						update_min(manhattan_dist(x - i, y, X_ORIGIN, Y_ORIGIN), 0);
 						update_min(steps_taken + i + res, 1);
 					}
 				}
@@ -78,8 +71,7 @@ main(void)
 						ht_insert(hm, x, y + i, steps_taken + i);
 					}
 					else if ((res = ht_query(hm, x, y + i))) {
-						update_min(manhattan_dist(x, y + i, X_ORIGIN, Y_ORIGIN),
-						           0);
+						update_min(manhattan_dist(x, y + i, X_ORIGIN, Y_ORIGIN), 0);
 						update_min(steps_taken + i + res, 1);
 					}
 				}
@@ -91,8 +83,7 @@ main(void)
 						ht_insert(hm, x, y - i, steps_taken + i);
 					}
 					else if ((res = ht_query(hm, x, y - i))) {
-						update_min(manhattan_dist(x, y - i, X_ORIGIN, Y_ORIGIN),
-						           0);
+						update_min(manhattan_dist(x, y - i, X_ORIGIN, Y_ORIGIN), 0);
 						update_min(steps_taken + i + res, 1);
 					}
 				}

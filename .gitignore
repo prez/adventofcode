@@ -1,11 +1,8 @@
 build/
 .clang-format
 *.o
-01/second
 01/first
-02/first
-02/second
-03/combined
+02/babbyturing
+03/wires
 04/dubs
-04/anonsol
 05/turing

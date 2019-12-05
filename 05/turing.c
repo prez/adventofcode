@@ -31,12 +31,19 @@ xrealloc(int_fast32_t **arr, size_t new_sz)
 }
 
 void
+write_at_addr(int_fast32_t *arr, size_t pos, size_t len, int_fast32_t val)
+{
+	if (arr[pos] >= len) {
+		xrealloc(&arr, arr[pos]);
+	}
+	arr[arr[pos]] = val;
+}
+
+void
 simulate(int_fast32_t in, int_fast32_t *arr, size_t len)
 {
 	for (size_t rip = 0; rip < len; ) {
-		if (99 == arr[rip]) {
-			return;
-		}
+		if (99 == arr[rip]) return;
 
 		size_t opcode = arr[rip] % 100;
 		uint_fast8_t param_mode[4] = { 2,                  (arr[rip]/100)%10,
@@ -44,26 +51,17 @@ simulate(int_fast32_t in, int_fast32_t *arr, size_t len)
 		
 		switch (opcode) {
 		case 1:
-			if (arr[rip+3] >= len) {
-				xrealloc(&arr, arr[rip+3]);
-			}
-			arr[arr[rip+3]] = fetch_arg(arr, rip, param_mode, 1) +
-			                  fetch_arg(arr, rip, param_mode, 2);
+			write_at_addr(arr, rip+3, len, (fetch_arg(arr, rip, param_mode, 1) +
+			                                fetch_arg(arr, rip, param_mode, 2)));
 			rip += 4;
 			break;
 		case 2:
-			if (arr[rip+3] >= len) {
-				xrealloc(&arr, arr[rip+3]);
-			}
-			arr[arr[rip+3]] = fetch_arg(arr, rip, param_mode, 1) *
-			                  fetch_arg(arr, rip, param_mode, 2);
+			write_at_addr(arr, rip+3, len, (fetch_arg(arr, rip, param_mode, 1) *
+			                                fetch_arg(arr, rip, param_mode, 2)));
 			rip += 4;
 			break;
 		case 3:
-			if (arr[rip+1] >= len) {
-				xrealloc(&arr, arr[rip+1]);
-			}
-			arr[arr[rip+1]] = in;
+			write_at_addr(arr, rip+1, len, in);
 			rip += 2;
 			break;
 		case 4:
@@ -76,32 +74,22 @@ simulate(int_fast32_t in, int_fast32_t *arr, size_t len)
 			if (fetch_arg(arr, rip, param_mode, 1)) {
 				rip = fetch_arg(arr, rip, param_mode, 2);
 			}
-			else {
-				rip += 3;
-			}
+			else rip += 3;
 			break;
 		case 6:
 			if (!fetch_arg(arr, rip, param_mode, 1)) {
 				rip = fetch_arg(arr, rip, param_mode, 2);
 			}
-			else {
-				rip += 3;
-			}
+			else rip += 3;
 			break;
 		case 7:
-			if (arr[rip+3] >= len) {
-				xrealloc(&arr, arr[rip+3]);
-			}
-			arr[arr[rip+3]] = (fetch_arg(arr, rip, param_mode, 1) <
-			                   fetch_arg(arr, rip, param_mode, 2));
+			write_at_addr(arr, rip+3, len, (fetch_arg(arr, rip, param_mode, 1) <
+		                                    fetch_arg(arr, rip, param_mode, 2)));
 			rip += 4;
 			break;
 		case 8:
-			if (arr[rip+3] >= len) {
-				xrealloc(&arr, arr[rip+3]);
-			}
-			arr[arr[rip+3]] = (fetch_arg(arr, rip, param_mode, 1) ==
-			                   fetch_arg(arr, rip, param_mode, 2));
+			write_at_addr(arr, rip+3, len, (fetch_arg(arr, rip, param_mode, 1) ==
+			                                fetch_arg(arr, rip, param_mode, 2)));
 			rip += 4;
 			break;
 		default:
