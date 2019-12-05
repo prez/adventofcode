@@ -33,6 +33,17 @@ adjust(uint_fast64_t *n)
 	}
 }
 
+/* Assuming n itself is increasing, return the next increasing number */
+uint_fast64_t
+next_increasing(uint_fast64_t n)
+{
+    if (n % 10 != 9)
+        return n + 1;
+    
+    n = next_increasing(n / 10);
+    return 10 * n + n % 10;
+}
+
 int
 main(void)
 {
@@ -41,10 +52,11 @@ main(void)
 	fscanf(fp, "%llu-%llu\n", &a, &b);
 	fclose(fp);
 	
-	for (adjust(&a); a <= b; a++) {
-		if (!(a % 10)) {
-			adjust(&a);
-		}
+	//for (adjust(&a); a <= b; a++) {
+	for (adjust(&a); a <= b; a = next_increasing(a)) {
+		//if (!(a % 10)) {
+		//	adjust(&a);
+		//}
 		if (dubs(ge2s, a)) {
 			cnt1++;
 			if (dubs(eq2s, a)) {
@@ -53,6 +65,7 @@ main(void)
 		}
 	}
 
-	printf("first: %llu\n", --cnt1);
-	printf("second: %llu\n", cnt2);
+	//printf("first:\t%llu\n", --cnt1);
+	printf("first:\t%llu\n", cnt1);
+	printf("second:\t%llu\n", cnt2);
 }
