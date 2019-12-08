@@ -6,7 +6,6 @@
 #define BUFLEN 200
 #define VALUE  19690720
 
-/* int __attribute__ ((pure)) */
 uint_fast32_t
 simulate(uint_fast8_t noun, uint_fast8_t verb, uint_fast32_t *arr, size_t len)
 {

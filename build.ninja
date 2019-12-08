@@ -59,6 +59,6 @@ rule cc
     description = compiling $in
 rule link
     command = $cc $ldflags $in -o $out && { rg -q $out .gitignore || echo $out >> .gitignore; }
-    description = linking $in
+    description = linking $out
 
-include ninjafile
+include build/ninjafile

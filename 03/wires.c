@@ -32,7 +32,7 @@ main(void)
 	FILE *f = fopen("input", "r");
 
 	struct ht_instance *hm = ht_new();
-	for (uint_fast32_t x, y, second_run = 0; fgets(wrk, BUFSIZE, f); second_run++) {
+	for (uint_fast32_t x, y, second_run = 0; fgets(wrk, sizeof(wrk), f); second_run++) {
 		uint_fast32_t res, steps_taken = 0;
 		x = X_ORIGIN;
 		y = Y_ORIGIN;
