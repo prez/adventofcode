@@ -13,7 +13,7 @@ main(void)
 	uint_fast8_t decoded[WIDTH*HEIGHT];
 	for (size_t i = 0; i < WIDTH*HEIGHT; decoded[i] = 2, i++) {}
 	
-	uint_fast32_t offs, mins[3], counts[3] = { 0 }, pos = 0;
+	uint_fast32_t offs, mins[3] = { UINT_FAST32_MAX, UINT_FAST32_MAX, UINT_FAST32_MAX }, counts[3] = { 0 }, pos = 0;
 	for (int_fast32_t c; ; pos++) {
 		c = getc(f);
 		if ((EOF == c) || ('\n' == c)) break;
