@@ -44,10 +44,11 @@ cflags_rel = -std=c99 -O3 $
 	-fno-semantic-interposition $
 	-flto $
 	-fuse-linker-plugin
-cppflags = -D_POSIX_C_SOURCE=200809L
+cppflags = -D_POSIX_C_SOURCE=200809L -I lib
 ldflags_dbg = -fuse-ld=gold $
  	-fsanitize=undefined,address,pointer-compare,pointer-subtract $
- 	-Wl,-z,defs
+ 	-Wl,-z,defs $
+    -lm
 ldflags_rel = -s
 
 builddir = build
@@ -61,4 +62,4 @@ rule link
     command = $cc $ldflags $in -o $out && { rg -q $out .gitignore || echo $out >> .gitignore; }
     description = linking $out
 
-include build/ninjafile
+include ninjafile

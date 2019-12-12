@@ -3,7 +3,7 @@
 
 #include <stdint.h>
 
-#define HT_LOAD_FACTOR 50
+#define HT_LOAD_FACTOR 70
 
 struct ht_entry {
 	char *key;

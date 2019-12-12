@@ -1,4 +1,4 @@
-with open("input3") as f:
+with open("bigboy") as f:
 	g = {c: p for p, c in (ln.split(")") for ln in f.read().split())}
 
 def walkback(x):

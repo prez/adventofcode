@@ -32,10 +32,7 @@ main(void)
 	printf("first:\t%lu\n", mins[1] * mins[2]);
 	printf("%s\n", "second:");
 	for (size_t i = 0; i < WIDTH*HEIGHT; i++) {
-		switch (decoded[i]) {
-		case 0: printf(" "); break;
-		case 1: printf("█"); break;
-		}
+		decoded[i] ? printf("█") : printf(" ");
 		if (0 == (i+1) % WIDTH) printf("\n");
 	}
 }

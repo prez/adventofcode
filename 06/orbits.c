@@ -31,7 +31,7 @@ insert_up(struct ht_instance *ht, struct ht_instance *ht_p, char *start)
 int
 main(void)
 {
-	FILE *f = fopen("input", "r");
+	FILE *f = fopen("evenbiggerboy", "r");
 	if (NULL == f) err(1, NULL);
 	struct ht_instance *ht = ht_new();
 	for (char input[BUFLEN], c[4095], p[4095]; fgets(input, sizeof(input), f); ) {

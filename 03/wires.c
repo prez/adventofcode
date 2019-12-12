@@ -4,7 +4,10 @@
 #include <stdlib.h>
 #include <string.h>
 #include "hash_table.h"
-#include "wires.h"
+
+#define BUFSIZE 2000000
+#define X_ORIGIN 0
+#define Y_ORIGIN 1000
 
 uint_fast32_t
 update_min(uint_fast32_t current, uint_fast8_t ind)
