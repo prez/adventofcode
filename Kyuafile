@@ -1,0 +1,12 @@
+syntax(2)
+
+for file in fs.files(".") do
+    if file == "." or file == ".." then
+        -- skip these
+    else
+        local kyuafile = fs.join(file, "Kyuafile")
+        if fs.exists(kyuafile) then
+            include(kyuafile)
+        end
+    end
+end

@@ -1,6 +1,6 @@
-from functools import reduce
-from itertools import combinations
+from sys import argv
 from math import gcd
+from itertools import combinations
 
 def lcm(a, b, c):
 	return a*b*c // gcd(a, b) // gcd(b, c)
@@ -28,12 +28,13 @@ def apply_steps(ms, n):
 		if step == n-1:
 			print("first:\t"+str(sum((sum(map(abs, m[0])) * sum(map(abs, m[1])) for m in ms))))
 		# pt2
-		if reduce(lambda x, y: x and y, cycles):
+		if all(cycles):
 			return cycles
 		# next
 		step += 1
 
-with open("input4") as f:
+if len(argv) != 2: print('invalid input file'), exit(1)
+with open(argv[1]) as f:
 	moons = [([int(x.split("=")[1]) for x in ln.strip(">").split(",")], [0, 0, 0]) for ln in f.read().strip().split('\n')]
 # moons[0][1][2]: first moon / velocities / z coord
 repeats = apply_steps(moons, 1000)

@@ -15,9 +15,10 @@ first:	5866663
 second:	4259
 */
 int
-main(void)
+main(int argc, char **argv)
 {
-	FILE *f = fopen("input", "r");
+	if (2 != argc) errx(1, "%s", "invalid input file");
+	FILE *f = fopen(argv[1], "r");
 	if (NULL == f) err(1, NULL);
 	
 	int_fast64_t *nums = malloc(BUFLEN * sizeof(int_fast64_t));

@@ -1,0 +1,39 @@
+cflags = $cflags_rel
+ldflags = $ldflags_rel
+build 01/first.o: cc 01/first.c
+build 02/babbyturing.o: cc 02/babbyturing.c
+build 03/hash_table.o: cc 03/hash_table.c
+build 03/wires.o: cc 03/wires.c
+build 04/dubs.o: cc 04/dubs.c
+build 05/turing.o: cc 05/turing.c
+build 06/hash_table.o: cc 06/hash_table.c
+build 06/orbits.o: cc 06/orbits.c
+build 07/seven.o: cc 07/seven.c
+build 07/fbackloop.o: cc 07/fbackloop.c
+build 08/layers.o: cc 08/layers.c
+build 09/fuckyou.o: cc 09/fuckyou.c
+build 11/fuckyou.o: cc 11/fuckyou.c
+build kyua.oonf: cc kyua.conf
+build lib/intcode.o: cc lib/intcode.c
+build 01/first: link 01/first.o
+build 02/babbyturing: link 02/babbyturing.o lib/intcode.o
+build 03/wires: link 03/hash_table.o 03/wires.o
+build 04/dubs: link 04/dubs.o
+build 05/turing: link 05/turing.o lib/intcode.o
+build 06/orbits: link 06/hash_table.o 06/orbits.o
+build 07/seven: link 07/seven.o lib/intcode.o
+build 07/fbackloop: link 07/fbackloop.o lib/intcode.o
+build 08/layers: link 08/layers.o
+build 09/fuckyou: link 09/fuckyou.o lib/intcode.o
+build 11/fuckyou: link 11/fuckyou.o lib/intcode.o
+default 01/first
+default 02/babbyturing
+default 03/wires
+default 04/dubs
+default 05/turing
+default 06/orbits
+default 07/seven
+default 07/fbackloop
+default 08/layers
+default 09/fuckyou
+default 11/fuckyou

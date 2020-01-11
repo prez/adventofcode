@@ -29,10 +29,12 @@ insert_up(struct ht_instance *ht, struct ht_instance *ht_p, char *start)
 }
 
 int
-main(void)
+main(int argc, char **argv)
 {
-	FILE *f = fopen("evenbiggerboy", "r");
+	if (2 != argc) errx(1, "%s", "invalid input file");
+	FILE *f = fopen(argv[1], "r");
 	if (NULL == f) err(1, NULL);
+	
 	struct ht_instance *ht = ht_new();
 	for (char input[BUFLEN], c[4095], p[4095]; fgets(input, sizeof(input), f); ) {
 		sscanf(input, "%4094[^)]) %4094[^\n]", p, c);

@@ -1,6 +1,7 @@
-from sys import argv
+from sys import argv, exit
 from math import ceil
 
+if len(argv) != 2: print('invalid input file'), exit(1)
 dc = {k.strip().split(' ')[1]: (int(k.strip().split(' ')[0]), {x.strip(' ').split(' ')[1]: int(x.strip(' ').split(' ')[0]) for x in v.split(',')}) for v, k in (line.strip().split("=>") for line in open(argv[1]))}
 ds = {k: 0 for k in dc.keys()}
 

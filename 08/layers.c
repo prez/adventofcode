@@ -1,14 +1,17 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdint.h>
+#include <err.h>
 
 #define WIDTH	25
 #define HEIGHT	6
 
 int
-main(void)
+main(int argc, char **argv)
 {
-	FILE *f = fopen("input", "r");
+	if (2 != argc) errx(1, "%s", "invalid input file");
+	FILE *f = fopen(argv[1], "r");
+	if (NULL == f) err(1, NULL);
 	
 	uint_fast8_t decoded[WIDTH*HEIGHT];
 	for (size_t i = 0; i < WIDTH*HEIGHT; decoded[i] = 2, i++) {}

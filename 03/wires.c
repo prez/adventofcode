@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <err.h>
 #include "hash_table.h"
 
 #define BUFSIZE 2000000
@@ -29,11 +30,13 @@ manhattan_dist(uint_fast32_t x, uint_fast32_t y, uint_fast32_t x_o,
 }
 
 int
-main(void)
+main(int argc, char **argv)
 {
-	char wrk[BUFSIZE];
-	FILE *f = fopen("input", "r");
+	if (2 != argc) errx(1, "%s", "invalid input file");
+	FILE *f = fopen(argv[1], "r");
+	if (NULL == f) err(1, NULL);
 
+	char wrk[BUFSIZE];
 	struct ht_instance *hm = ht_new();
 	for (uint_fast32_t x, y, second_run = 0; fgets(wrk, sizeof(wrk), f); second_run++) {
 		uint_fast32_t res, steps_taken = 0;

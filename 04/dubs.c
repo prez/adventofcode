@@ -1,15 +1,16 @@
+#include <err.h>
 #include <stdio.h>
 #include <stdint.h>
 #include <sys/cdefs.h>
 
-void eq2s(uint_fast8_t *x) { *x = (*x== 2); }
-void ge2s(uint_fast8_t *x) { *x = (*x>= 2); }
+static inline void eq2s(uint_fast8_t *x) { *x = (*x== 2); }
+static inline void ge2s(uint_fast8_t *x) { *x = (*x>= 2); }
 
 uint_fast8_t __attribute_pure__
 dubs(void (*f)(uint_fast8_t *), uint_fast64_t n)
 {
 	uint_fast8_t ret = 0;
-	
+
 	uint_fast8_t nums[10] = { 0 };
 	for (uint_fast64_t div = 1; div < n; div *= 10) {
 		nums[(n / div) % 10]++;
@@ -33,14 +34,33 @@ adjust(uint_fast64_t *n)
 	}
 }
 
-int
-main(void)
+void
+pre_adjust(uint_fast64_t *n)
 {
-	FILE *fp = fopen("evenbiggerboy", "r");
+	uint_fast64_t c_d, div = 10, sum = 0;
+	for (; *n / (div * 10); div *= 10) {}
+	c_d = (*n / div) % 10;
+	for (sum += c_d * div; (div /= 10); sum += c_d * div) {
+		if ((*n / div) % 10 < c_d) {
+			*n = sum;
+			return;
+		}
+		c_d = (*n / div) % 10;
+	}
+}
+
+int
+main(int argc, char **argv)
+{
+	if (2 != argc) errx(1, "%s", "invalid input file");
+	FILE *f = fopen(argv[1], "r");
+	if (NULL == f) err(1, NULL);
+
 	uint_fast64_t a, b, cnt1 = 0, cnt2 = 0;
-	fscanf(fp, "%llu-%llu\n", &a, &b);
-	fclose(fp);
-	
+	fscanf(f, "%llu-%llu\n", &a, &b);
+	fclose(f);
+
+	pre_adjust(&a);
 	for (adjust(&a); a <= b; a++) {
 		if (!(a % 10)) {
 			adjust(&a);
