@@ -1,0 +1,112 @@
+cabal-version:      2.4
+name:               aoc
+version:            0.0.0
+
+common common-ghc
+    ghc-options:        -Wall -Wcompat -Wredundant-constraints
+    default-language:    Haskell2010
+    default-extensions:
+        LexicalNegation
+        , OverloadedStrings
+        , InstanceSigs
+        , DeriveFunctor
+        , DeriveFoldable
+        , DeriveTraversable
+        , ApplicativeDo
+        , GADTs
+        , RankNTypes
+        , ScopedTypeVariables
+        , TupleSections
+        , BlockArguments
+        , FlexibleContexts
+        , FlexibleInstances
+        , ConstrainedClassMethods
+        , MultiParamTypeClasses
+        , PartialTypeSignatures
+        , NamedWildCards
+        , KindSignatures
+        , ConstraintKinds
+        , BinaryLiterals
+        , HexFloatLiterals
+
+common common-import
+    build-depends:       base ^>=4.15.0.0
+                         , hspec
+--                       , containers
+--                       , unordered-containers
+
+executable 01
+    import:     common-ghc, common-import
+    main-is:    01.hs
+executable 02
+    import:     common-ghc, common-import
+    main-is:    02.hs
+executable 03
+    import:     common-ghc, common-import
+    main-is:    03.hs
+executable 04
+    import:     common-ghc, common-import
+    main-is:    04.hs
+executable 05
+    import:     common-ghc, common-import
+    main-is:    05.hs
+executable 06
+    import:     common-ghc, common-import
+    main-is:    06.hs
+executable 07
+    import:     common-ghc, common-import
+    main-is:    07.hs
+executable 08
+    import:     common-ghc, common-import
+    main-is:    08.hs
+executable 09
+    import:     common-ghc, common-import
+    main-is:    09.hs
+executable 10
+    import:     common-ghc, common-import
+    main-is:    10.hs
+executable 11
+    import:     common-ghc, common-import
+    main-is:    11.hs
+executable 12
+    import:     common-ghc, common-import
+    main-is:    12.hs
+executable 13
+    import:     common-ghc, common-import
+    main-is:    13.hs
+executable 14
+    import:     common-ghc, common-import
+    main-is:    14.hs
+executable 15
+    import:     common-ghc, common-import
+    main-is:    15.hs
+executable 16
+    import:     common-ghc, common-import
+    main-is:    16.hs
+executable 17
+    import:     common-ghc, common-import
+    main-is:    17.hs
+executable 18
+    import:     common-ghc, common-import
+    main-is:    18.hs
+executable 19
+    import:     common-ghc, common-import
+    main-is:    19.hs
+executable 20
+    import:     common-ghc, common-import
+    main-is:    20.hs
+executable 21
+    import:     common-ghc, common-import
+    main-is:    21.hs
+executable 22
+    import:     common-ghc, common-import
+    main-is:    22.hs
+executable 23
+    import:     common-ghc, common-import
+    main-is:    23.hs
+executable 24
+    import:     common-ghc, common-import
+    main-is:    24.hs
+executable 25
+    import:     common-ghc, common-import
+    main-is:    25.hs
