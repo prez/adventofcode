@@ -3,7 +3,7 @@ name:               aoc
 version:            0.0.0
 
 common common-ghc
-    ghc-options:        -Wall -Wcompat -Wredundant-constraints
+    ghc-options:         -O2 -Wall -Wcompat -Wredundant-constraints -Wno-type-defaults
     default-language:    Haskell2010
     default-extensions:
         OverloadedStrings

@@ -1,6 +1,5 @@
 module Main where
 
-import Control.Monad
 import Control.Applicative
 import Data.Maybe ( catMaybes )
 import Text.Read ( readMaybe )
@@ -14,7 +13,7 @@ data Person = Person (Map.Map String String)
 
 parse :: [String] -> Maybe Person
 parse xs
-  | all (flip Map.member $ hm) r_fields = Just $ Person hm
+  | all (flip Map.member hm) r_fields = Just $ Person hm
   | otherwise = Nothing
   where
     hm = Map.fromList keyed
@@ -36,7 +35,7 @@ validate (Person hm) = all (==Just True) [v_byr,v_iyr,v_eyr,v_hgt,v_hcl,v_ecl,v_
       Just (n, "in") -> Just $ inrange 59 75 n
       _ -> Nothing
     v_hcl = liftA2 (&&) ((=='#') . head) (all isHexDigit . tail) <$> lk "hcl"
-    v_ecl = (flip elem $ ["amb","blu","brn","gry","grn","hzl","oth"]) <$> lk "ecl"
+    v_ecl = flip elem ["amb","blu","brn","gry","grn","hzl","oth"] <$> lk "ecl"
     v_pid = liftA2 (&&) ((==9) . length) (all isNumber) <$> lk "pid"
 
 input :: IO [[String]]
