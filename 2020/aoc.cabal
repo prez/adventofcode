@@ -33,7 +33,8 @@ common common-import
 --    build-depends:       base ^>=4.15.0.0
     build-depends:       base ^>=4.14.1.0
                          , hspec
---                       , containers
+                         , split
+                         , containers
 --                       , unordered-containers
 
 executable 01
