@@ -2,19 +2,11 @@ import Data.Function
 import Control.Applicative
 import Text.Printf ( printf )
 import Data.List.Split ( splitOn )
-import qualified Data.Set as Set ( Set, fromList, intersection, size )
-
-input :: IO [[String]]
-input = map lines . splitOn "\n\n" <$> readFile "inputs/06/input"
+import qualified Data.Set as Set ( fromList, intersection, size, union )
 
 main :: IO ()
 main = do
-  inp <- input
-  (liftA2 (printf "first:\t%d\nsecond:\t%d\n") `on` ((sum.) . map . (Set.size.)))
-    solve1
-    solve2
-    inp
-
-solve1, solve2 :: [String] -> Set.Set Char
-solve1 = Set.fromList . concat
-solve2 = foldr1 Set.intersection . map Set.fromList
+  map (map Set.fromList . lines) . splitOn "\n\n" <$> readFile "inputs/06/input"
+  >>= (liftA2 (printf "first:\t%d\nsecond:\t%d\n") `on`
+    \f -> sum . map (Set.size . foldr1 f))
+    Set.union Set.intersection
