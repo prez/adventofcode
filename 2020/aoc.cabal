@@ -28,6 +28,7 @@ common common-ghc
         , ConstraintKinds
         , BinaryLiterals
         , HexFloatLiterals
+        , FunctionalDependencies
 
 common common-import
 --    build-depends:       base ^>=4.15.0.0
@@ -35,7 +36,13 @@ common common-import
                          , hspec
                          , split
                          , containers
---                       , unordered-containers
+                         , tuple
+                         , algebraic-graphs
+                         , parsers
+                         , uglymemo
+                         , vector
+                         , ordered-containers
+                         , safe
 
 executable 01
     import:     common-ghc, common-import
