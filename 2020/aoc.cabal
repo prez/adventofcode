@@ -41,6 +41,7 @@ common common-import
                          , parsers
                          , uglymemo
                          , vector
+                         , vector-algorithms
                          , ordered-containers
                          , safe
 
