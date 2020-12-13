@@ -44,6 +44,7 @@ common common-import
                          , vector-algorithms
                          , ordered-containers
                          , safe
+                         , arithmoi
 
 executable 01
     import:     common-ghc, common-import
