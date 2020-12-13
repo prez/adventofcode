@@ -1,4 +1,5 @@
 import Control.Applicative
+import Data.Function
 import Text.Printf ( printf )
 import Math.NumberTheory.Quadratic.GaussianIntegers
 
@@ -21,22 +22,21 @@ input f = map r <$> lines <$> readFile f
 main :: IO ()
 main = do
   input "inputs/12/input"
-  >>= liftA2 (printf "first:\t%d\nsecond:\t%d\n") solve1 solve2
+  >>= liftA2 (printf "first:\t%d\nsecond:\t%d\n" `on`
+    liftA2 (+) real (negate . imag))
+    (snd . foldl moveabs (1:+0,0:+0)) (fst . foldl moverel (0:+0,10:+1))
 
-solve1 :: [(GaussianInteger, GaussianInteger)] -> Integer
-solve1 = liftA2 (+) real (negate . imag) . snd . foldl moveabs (1:+0,0:+0)
-  where
-    (d,z) `moveabs` (d',z')
-      | liftA2 (&&) ((/=0) . real) ((/=0) . imag) z' = (d,z+d*(real z':+0))
-      | otherwise = (d*d',z+z')
+fwdmove :: GaussianInteger -> Bool
+fwdmove = liftA2 (&&) ((/=0) . real) ((/=0) . imag)
 
-solve2 :: [(GaussianInteger, GaussianInteger)] -> Integer
-solve2 = liftA2 (+) real (negate . imag) . fst . foldl moverel (0:+0,10:+1)
+(d,z) `moveabs` (d',z')
+  | fwdmove z' = (d,z+d*(real z':+0))
+  | otherwise = (d*d',z+z')
+
+(s,w) `moverel` (d,z)
+  | fwdmove z = (s+x,w+x)
+  | z == 0:+0 = (s,s+x')
+  | otherwise = (s,w+z)
   where
-    (s,w) `moverel` (d,z)
-      | liftA2 (&&) ((/=0) . real) ((/=0) . imag) z = (s+x,w+x)
-      | z == 0:+0 = (s,s+x')
-      | otherwise = (s,w+z)
-      where
-        x = (w-s)*d*(real z:+0)
-        x' = (w-s)*d
+    x = (w-s)*d*(real z:+0)
+    x' = (w-s)*d
