@@ -36,15 +36,16 @@ common common-import
                          , hspec
                          , split
                          , containers
+                         , ordered-containers
                          , tuple
                          , algebraic-graphs
                          , parsers
                          , uglymemo
                          , vector
                          , vector-algorithms
-                         , ordered-containers
                          , safe
                          , arithmoi
+                         , bv
 
 executable 01
     import:     common-ghc, common-import
