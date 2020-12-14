@@ -19,9 +19,10 @@ input f = parse <$> readFile f
       where
         mask = do
           string "mask = "
-          msk <- manyTill anyChar (try newline)
+          msk <- count 36 anyChar
           let mskor = toInteger . fromBits $ replace True <$> msk
           let mskand = toInteger . fromBits $ replace False <$> msk
+          newline
           pure . Left $ (.&. mskand) . (.|. mskor)
           where
             -- or / set the 1s
@@ -39,7 +40,7 @@ input f = parse <$> readFile f
 
 main :: IO ()
 main = do
-  input "inputs/14/test"
+  input "inputs/14/input"
   >>= liftA2 (printf "first:\t%d\nsecond:\t%d\n") solve1 solve2
 
 applymask :: (Integer -> Integer) -> [(Integer, Integer)] -> [(Integer, Integer)]
