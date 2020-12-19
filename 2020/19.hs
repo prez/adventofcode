@@ -8,17 +8,17 @@ import Data.Map ( Map )
 import qualified Data.Map.Strict as Map
 
 type Table = Map Int Rule
-data Rule = Terminal String | Nonterminal [[Int]]
+data Rule = Term String | Nonterm [[Int]] deriving ( Show )
 
 main :: IO ()
 main = do
   (hm,xs) <- input "inputs/19/input"
-  (hm',_) <- input "inputs/19/input2"
+  let hm' = Map.insert 11 (Nonterm [[42,31],[42,11,31]]) . Map.insert 8 (Nonterm [[42],[42,8]]) $ hm
   (printf "first:\t%d\nsecond:\t%d\n" `on` flip solve xs) hm hm'
 
 mkparser :: Table -> Rule -> ReadP String
-mkparser _ (Terminal s) = string s
-mkparser tb (Nonterminal ns) = choice . map (fmap mconcat . sequenceA) . parsers $ ns
+mkparser _ (Term s) = string s
+mkparser tb (Nonterm ns) = choice . map (fmap concat . sequenceA) . parsers $ ns
   where
     parsers = map (map (mkparser tb . (tb Map.!)))
 
@@ -32,8 +32,7 @@ input f = do
   [rules,messages] <- map lines <$> splitOn "\n\n" <$> readFile f
   pure (Map.fromList $ map r rules,messages)
   where
-    r :: String -> (Int,Rule)
     r s = let [ind,ru] = splitOn ": " s in (read ind, rr ru)
       where
-        rr ('"':xs) = Terminal $ init xs
-        rr xs = Nonterminal . map (map read . splitOn " ") . splitOn " | " $ xs
+        rr ('"':xs) = Term $ init xs
+        rr xs = Nonterm . map (map read . splitOn " ") . splitOn " | " $ xs
